@@ -45,3 +45,8 @@ func (k Keeper) GetOwner(ctx sdk.Context, name string) sdk.AccAddress {
 	return bz
 }
 
+// SetOwner - sets the current owner of a name
+func (k Keeper) SetOwner(ctx sdk.Context, name string, owner sdk.AccAddress) {
+	store := ctx.KVStore(k.ownersStoreKey)
+	store.Set([]byte(name), owner)
+}
