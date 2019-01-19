@@ -23,3 +23,11 @@ func (k Keeper) SetName(ctx sdk.Context, name string, value string) {
 	store := ctx.KVStore(k.namesStoreKey)
 	store.Set([]byte(name), []byte(value))
 }
+
+// ResolveName - returns the string that the name resolves to
+func (k Keeper) ResolveName(ctx sdk.Context, name string) string {
+	store := ctx.KVStore(k.namesStoreKey)
+	bz := store.Get([]byte(name))
+	return string(bz)
+}
+
