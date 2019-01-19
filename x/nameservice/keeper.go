@@ -38,3 +38,10 @@ func (k Keeper) HasOwner(ctx sdk.Context, name string) bool {
 	return bz != nil
 }
 
+// GetOwner - returns address of the current owner of a name
+func (k Keeper) GetOwner(ctx sdk.Context, name string) sdk.AccAddress {
+	store := ctx.KVStore(k.ownersStoreKey)
+	bz := store.Get([]byte(name))
+	return bz
+}
+
