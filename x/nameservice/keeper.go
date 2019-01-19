@@ -31,3 +31,10 @@ func (k Keeper) ResolveName(ctx sdk.Context, name string) string {
 	return string(bz)
 }
 
+// HasOwner - returns boolean whether or not the name already has an owner or not
+func (k Keeper) HasOwner(ctx sdk.Context, name string) bool {
+	store := ctx.KVStore(k.ownersStoreKey)
+	bz := store.Get([]byte(name))
+	return bz != nil
+}
+
