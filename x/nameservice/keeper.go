@@ -17,3 +17,9 @@ type Keeper struct {
 
 	cdc *codec.Codec // The wire codec for binary encoding/decoding.
 }
+
+// SetName - sets the value string that a name resolves to
+func (k Keeper) SetName(ctx sdk.Context, name string, value string) {
+	store := ctx.KVStore(k.namesStoreKey)
+	store.Set([]byte(name), []byte(value))
+}
