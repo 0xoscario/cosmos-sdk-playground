@@ -18,6 +18,17 @@ type Keeper struct {
 	cdc *codec.Codec // The wire codec for binary encoding/decoding.
 }
 
+// NewKeeper creates new instances of the nameservice Keeper
+func NewKeeper(coinKeeper bank.Keeper, namesStoreKey sdk.StoreKey, ownersStoreKey sdk.StoreKey, priceStoreKey sdk.StoreKey, cdc *codec.Codec) Keeper {
+	return Keeper{
+		coinKeeper:     coinKeeper,
+		namesStoreKey:  namesStoreKey,
+		ownersStoreKey: ownersStoreKey,
+		pricesStoreKey: priceStoreKey,
+		cdc:            cdc,
+	}
+}
+
 // SetName - sets the value string that a name resolves to
 func (k Keeper) SetName(ctx sdk.Context, name string, value string) {
 	store := ctx.KVStore(k.namesStoreKey)
