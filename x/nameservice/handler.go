@@ -25,3 +25,16 @@ func NewHandler(keeper Keeper) sdk.Handler {
 // NewHandler is essentially a sub-router
 // that directs messages coming into this module to the proper handler.
 
+
+// In this function, check to see if the Msg sender is actually the owner of the 
+// name (keeper.GetOwner). 
+// If so, they can set the name by calling the function on the Keeper. 
+// If not, throw an error and return that to the user.
+
+func handleMsgSetName(ctx sdk.Context, keeper Keeper, msg MsgSetName) sdk.Result {
+	if !msg.Owner.Equals(keeper.GetOwner(ctx, msg.Name)) {
+		return sdk.ErrUnauthorized("incorrect Owner").Result()
+	}
+	keeper.SetName(ctx, msg.Name, msg.Value)
+	return sdk.Result{}
+}
