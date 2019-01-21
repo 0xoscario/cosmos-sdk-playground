@@ -56,3 +56,14 @@ func (msg MsgSetName) GetSignBytes() []byte {
 	}
 	return sdk.MustSortJSON(b)
 }
+
+// GetSigners defines whose signature is required on a Tx 
+// in order for it to be valid. 
+// In this case, for example, 
+// the MsgSetName requires that the Owner signs the transaction 
+// when trying to reset what the name points to.
+
+// GetSigners Implements Msg.
+func (msg MsgSetName) GetSigners() []sdk.AccAddress {
+	return []sdk.AccAddress{msg.Owner}
+}
