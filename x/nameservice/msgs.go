@@ -86,8 +86,10 @@ func (msg MsgBuyName) Validate() sdk.Error {
 	if !msg.Bid.isPostive() {
 		return sdk.ErrInsufficientCoins("Bids must be positive")
 	}
+	return nil
 }
 
+// set
 // GetSignBytes Implements Msg.
 // GetSignBytes defines how the Msg gets encoded for signing.
 // In most cases this means marshal to sorted JSON.
@@ -101,6 +103,17 @@ func (msg MsgSetName) GetSignBytes() []byte {
 	return sdk.MustSortJSON(b)
 }
 
+// buy
+// GetSignBytes implements Msg.
+func (msg MsgBuyName) GetSignBytes() []byte {
+	b, err := json.Marshal(msg)
+	if err != nil {
+		panic(err)
+	}
+	return sdk.MustSortJSON(b)
+}
+
+// set
 // GetSigners defines whose signature is required on a Tx
 // in order for it to be valid.
 // In this case, for example,
@@ -110,4 +123,10 @@ func (msg MsgSetName) GetSignBytes() []byte {
 // GetSigners Implements Msg.
 func (msg MsgSetName) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{msg.Owner}
+}
+
+// buy
+// GetSigners Implements Msg.
+func (msg MsgBuyName) GetSigners() []sdk.AccAddress {
+	return []sdk.AccAddress{msg.Buyer}
 }
