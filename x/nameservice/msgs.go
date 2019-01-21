@@ -44,3 +44,15 @@ func (msg MsgSetName) ValidateBasic() sdk.Error {
 	}
 	return nil
 }
+// GetSignBytes Implements Msg.
+// GetSignBytes defines how the Msg gets encoded for signing.
+// In most cases this means marshal to sorted JSON.
+// The output should not be modified.
+
+func (msg MsgSetName) GetSignBytes() []byte {
+	b, err := json.Marshal(msg)
+	if err != nil {
+		panic(err)
+	}
+	return sdk.MustSortJSON(b)
+}
