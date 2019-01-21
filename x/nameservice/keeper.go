@@ -61,3 +61,23 @@ func (k Keeper) SetOwner(ctx sdk.Context, name string, owner sdk.AccAddress) {
 	store := ctx.KVStore(k.ownersStoreKey)
 	store.Set([]byte(name), owner)
 }
+
+// GetPrice - gets the current price of a name.
+// If price doesn't exist yet, set to 1 mycoin.
+
+func (k Keeper) GetPrice(ctx sdk.Context, name string) sdk.Coins {
+	if !k.HasOwner(ctx, name) {
+		return sdk.Coins{sdk.NewInt64Coin("mycoin", 1)}
+	}
+	store := ctx.KVStore(k.pricesStoreKey)
+	bz  store.Get([]byte(name))
+	var price sdk.Coins
+	k.cdc.MustUnmarshalBinaryBare(bz, &price)
+	return price
+}
+
+// SetPrice - sets the current price of a name
+func (k Keeper) SetPrice(ctx sdk.Context, name string, price sdk.Coins){
+	store := ctx.KVStore(k.pricesStoreKey)
+	store.Set([]byte(name), k.cdc.MustUnmarshalBinaryBare(price))
+}
