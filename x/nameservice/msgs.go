@@ -1,8 +1,6 @@
 package nameservice
 
 import (
-	"encoding/json"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
@@ -33,4 +31,16 @@ func (msg MsgSetName) Type() string {
 	return "set_name"
 }
 
+// ValidateBasic Implements Msg.
+// ValidateBasic is used to provide some basic stateless checks
+// on the validity of the Msg.
 
+func (msg MsgSetName) ValidateBasic() sdk.Error {
+	if msg.Owner.Empty() {
+		return sdk.ErrInvalidAddress(msg.Owner.String())
+	}
+	if len(msg.Name) == 0 || len(msg.Value) == 0 {
+		return sdk.ErrUnknownRequest("Name and/or Value cannot be empty")
+	}
+	return nil
+}
