@@ -22,3 +22,15 @@ func NewMsgSetName(name string, value string, owner sdk.AccAddress) MsgSetName {
 	}
 }
 
+/////////// Interface
+// type should return the name of the module
+func (msg MsgSetName) Route() string {
+	return "nameservice"
+}
+
+// Name should return the action
+func (msg MsgSetName) Type() string {
+	return "set_name"
+}
+
+
