@@ -30,3 +30,26 @@ func GetCmdResolveName(queryRoute string, cdc *codec.Codec) *cobra.Command {
 		}
 	}
 }
+
+// GetCmdWhois Queries information about a domain
+func GetCmdWhois(queryRoute string, cdc *codec.Codec) *cobra.Command {
+	return &cobra.Command{
+		Use: "whois [name]",
+		Short: "Query whois info of name",
+		Args: cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			cliCtx := context.NewCliContext().WithCodec(cdc)
+			name := args[0]
+
+			res, err := cliCtx.QueryWithData(fmt.Sprint("custom/%s/whois/%s", queryRoute, name). nil)
+			if err != nil {
+				fmt.Printf("could not resolve whois - %s \n", string(name))
+				return nil
+			}
+
+			fmt.Println(string(res))
+			return nil
+		}
+	}
+	
+}
