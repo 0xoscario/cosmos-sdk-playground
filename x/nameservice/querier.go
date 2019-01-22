@@ -7,6 +7,14 @@ import(
 	abci "github.com/tendermint/tendermint/abci/types"
 )
 
+// Whois represents a name -> value lookup
+type Whois struct {
+	Value string			`json:"value"`
+	Owner sdk.AccAddress	`json:"value"`
+	Price sdk.Coins			`json:"value"`
+
+}
+
 // query endpoints supported by the governance Querier
 // resolve: This takes a name and returns the value that is stored by the nameservice. 
 // This is similar to a DNS query.
